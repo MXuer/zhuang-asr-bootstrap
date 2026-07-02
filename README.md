@@ -7,6 +7,7 @@ This repository stores code and documentation only. Downloaded audio/text, gener
 ## Layout
 
 - `local/01_discover_zyb_sources.py`: discover/download Bible source inventory.
+- `docs/pipeline.md`: from-scratch source acquisition, alignment, VAD correction, and V1 clean commands.
 - `local/export_punct_sentences.py`: export per-book sentence TSV with Chinese punctuation policy.
 - `local/run_mms_sentence_alignment.py`: run MMS forced alignment for one book.
 - `local/batch_align_books.py`: resumable batch alignment across books.
@@ -30,3 +31,10 @@ Do not commit:
 
 V1 uses `use_star=True` MMS alignment plus ten-vad boundary correction to create a clean real-speech ASR manifest. Later versions add segment composition, acoustic augmentation, and OpenVoice V2 voice conversion.
 
+Start with:
+
+```bash
+conda activate qwen3-asr
+```
+
+Then follow `docs/pipeline.md`.

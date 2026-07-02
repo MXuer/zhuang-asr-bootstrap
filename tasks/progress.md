@@ -15,6 +15,10 @@
 - Updated `local/export_punct_sentences.py` to preserve Chinese punctuation policy in new exports.
 - Updated `local/batch_align_books.py` to use direct qwen3 Python, `.tmp` output, per-book logs, and output validation.
 - Added `.gitignore` for large data/model/audio artifacts.
+- Added local Ten-VAD runtime wrapper and V1 clean scripts.
+- Generated first V1 clean data from currently available `use_star=True` books: `MAT` and `2JN`.
+- V1 current output: `data/manifests/v1_clean_segments.jsonl`, `data/wav/v1_clean/`, `reports/v1_clean_audit.md`.
+- V1 current audit: 1,860 kept segments, 2 too-long drops, 4.817 hours, books `2JN` and `MAT`.
 
 ## Important Paths
 
@@ -29,7 +33,7 @@
 
 Clean up scripts enough to support V1 data cleaning:
 
-1. Inspect `ten_vad.py` and decide the smallest local wrapper.
-2. Add alignment audit script for existing/new `use_star=True` results.
-3. Add V1 clean manifest builder: `use_star=True alignment + ten-vad boundary correction + filters`.
-4. Cut WAV segments and write `v1_clean_segments.jsonl`.
+1. Finish `use_star=True` alignment for the remaining 25 books.
+2. Re-run `python local/run_v1_clean_pipeline.py --out-manifest data/manifests/v1_clean_segments.jsonl`.
+3. Add alignment audit script for all books.
+4. Review VAD-corrected samples by listening before training.

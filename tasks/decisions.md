@@ -7,4 +7,5 @@
 - VAD correction should adjust alignment boundaries but must keep any silence that still belongs inside the spoken span. Silence is allowed inside a segment.
 - Every dataset version needs an audit manifest and a validation report before it can be used for training.
 - V1 is real read-speech only. OpenVoice, noise, speed perturb, and partial-span augmentation are later versions, not part of V1 clean.
-
+- The reproducible runtime environment is `conda activate qwen3-asr`.
+- VAD boundary correction searches only the local frame slice around each aligned segment, not the full book from frame zero.
