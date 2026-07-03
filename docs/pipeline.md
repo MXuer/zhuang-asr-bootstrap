@@ -126,8 +126,8 @@ python local/vad_correct_segments.py \
 
 ```bash
 python local/run_v1_clean_pipeline.py \
-  --books MAT 2JN \
-  --out-manifest data/manifests/v1_clean_segments.jsonl
+  --out-manifest data/manifests/v1_clean_segments.jsonl \
+  --jobs 8
 ```
 
 Outputs:
@@ -138,3 +138,48 @@ data/wav/v1_clean/<BOOK>/*.wav
 reports/v1_clean_audit.md
 ```
 
+Use `--jobs` for parallel cutting. Pick a value that keeps CPU/I/O around 85%-90% utilized without starving the machine.
+
+## Stage 7: Incomplete-Meaning Augmentation
+
+Adjacent two-sentence concat:
+
+```bash
+python local/make_v1_concat_segments.py --jobs 16
+python local/report_v1_clean.py \
+  --manifest data/manifests/v1_pair_concat_segments.jsonl \
+  --out reports/v1_pair_concat_audit.md
+```
+
+Partial spans from word-level MMS alignment:
+
+```bash
+for i in 0 1 2 3; do
+  python local/make_v1_partial_segments.py \
+    --num-shards 4 \
+    --shard-index "$i" \
+    --device cuda:7 \
+    --out-manifest "data/manifests/v1_partial_segments.shard${i}.jsonl" &
+done
+wait
+python - <<'PY'
+from pathlib import Path
+out = Path("data/manifests/v1_partial_segments.jsonl")
+parts = [Path(f"data/manifests/v1_partial_segments.shard{i}.jsonl") for i in range(4)]
+out.write_text("".join(p.read_text(encoding="utf-8") for p in parts), encoding="utf-8")
+PY
+python local/report_v1_clean.py \
+  --manifest data/manifests/v1_partial_segments.jsonl \
+  --out reports/v1_partial_audit.md
+```
+
+Outputs:
+
+```text
+data/manifests/v1_pair_concat_segments.jsonl
+data/wav/v1_pair_concat/<BOOK>/*.wav
+reports/v1_pair_concat_audit.md
+data/manifests/v1_partial_segments.jsonl
+data/wav/v1_partial/<BOOK>/*.wav
+reports/v1_partial_audit.md
+```

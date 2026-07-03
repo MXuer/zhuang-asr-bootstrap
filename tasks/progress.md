@@ -16,9 +16,14 @@
 - Updated `local/batch_align_books.py` to use direct qwen3 Python, `.tmp` output, per-book logs, and output validation.
 - Added `.gitignore` for large data/model/audio artifacts.
 - Added local Ten-VAD runtime wrapper and V1 clean scripts.
-- Generated first V1 clean data from currently available `use_star=True` books: `MAT` and `2JN`.
+- Generated full V1 clean data from all 27 `use_star=True` aligned books.
 - V1 current output: `data/manifests/v1_clean_segments.jsonl`, `data/wav/v1_clean/`, `reports/v1_clean_audit.md`.
-- V1 current audit: 1,860 kept segments, 2 too-long drops, 4.817 hours, books `2JN` and `MAT`.
+- V1 current audit: 13,544 kept segments, 30 too-long drops, 36.790 hours, 27 books.
+- V1 cutting now supports multiprocessing via `--jobs`; use enough workers to target roughly 85%-90% resource utilization.
+- Built incomplete-meaning augmentation from V1:
+  - Adjacent concat: `data/manifests/v1_pair_concat_segments.jsonl`, 3,228 segments, 16.710 hours, 27 books.
+  - Partial span crops: `data/manifests/v1_partial_segments.jsonl`, 39,515 segments, 51.634 hours, 27 books.
+  - Audits: `reports/v1_pair_concat_audit.md`, `reports/v1_partial_audit.md`.
 
 ## Important Paths
 
@@ -33,7 +38,7 @@
 
 Clean up scripts enough to support V1 data cleaning:
 
-1. Finish `use_star=True` alignment for the remaining 25 books.
-2. Re-run `python local/run_v1_clean_pipeline.py --out-manifest data/manifests/v1_clean_segments.jsonl`.
-3. Add alignment audit script for all books.
-4. Review VAD-corrected samples by listening before training.
+1. Add alignment audit script for all books.
+2. Review VAD-corrected samples by listening before training.
+3. Review augmented samples by listening before training.
+4. Prepare WeNet data files from clean + selected augmentation manifests.
