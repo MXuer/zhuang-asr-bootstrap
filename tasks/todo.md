@@ -12,10 +12,11 @@
 - [x] Finish remaining book alignments and rerun V1 clean.
 - [ ] Add all-book alignment audit script.
 - [ ] Review VAD-corrected samples by listening before training.
-- [ ] Prepare WeNet data files from V1 clean manifest.
 - [x] Build incomplete-meaning augmentation: adjacent sentence concat and partial-span crops.
+- [x] Export V1 Kaldi train/val/test splits.
 
 ## Review
 
 - Current cleanup is documentation-first. No existing alignment outputs were moved or rewritten.
 - Incomplete-meaning augmentation is generated as separate dataset versions, not mixed into V1 clean.
+- V1 dataset is complete enough for first training experiments.

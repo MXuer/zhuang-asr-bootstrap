@@ -9,3 +9,4 @@
 - V1 is real read-speech only. OpenVoice, noise, speed perturb, and partial-span augmentation are later versions, not part of V1 clean.
 - The reproducible runtime environment is `conda activate qwen3-asr`.
 - VAD boundary correction searches only the local frame slice around each aligned segment, not the full book from frame zero.
+- Kaldi V1 splits are sampled per chapter from clean source utterances. Train excludes the closure of any source utterance touched by val/test clean, concat, or partial rows.

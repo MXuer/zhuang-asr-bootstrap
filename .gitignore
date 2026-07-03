@@ -5,6 +5,7 @@ __pycache__/
 data/raw/
 data/work/
 data/wav/
+data/kaldi/
 data/manifests/*.json
 data/manifests/*.jsonl
 data/manifests/*.tsv

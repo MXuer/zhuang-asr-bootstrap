@@ -24,6 +24,11 @@
   - Adjacent concat: `data/manifests/v1_pair_concat_segments.jsonl`, 3,228 segments, 16.710 hours, 27 books.
   - Partial span crops: `data/manifests/v1_partial_segments.jsonl`, 39,515 segments, 51.634 hours, 27 books.
   - Audits: `reports/v1_pair_concat_audit.md`, `reports/v1_partial_audit.md`.
+- Exported V1 Kaldi splits to `data/kaldi/v1/`:
+  - train: 52,676 utterances, 98.036 hours.
+  - val: 1,698 utterances, 3.328 hours.
+  - test: 1,913 utterances, 3.769 hours.
+  - `wav.scp` paths are absolute; train has zero source-unit overlap with val/test.
 
 ## Important Paths
 
@@ -41,4 +46,4 @@ Clean up scripts enough to support V1 data cleaning:
 1. Add alignment audit script for all books.
 2. Review VAD-corrected samples by listening before training.
 3. Review augmented samples by listening before training.
-4. Prepare WeNet data files from clean + selected augmentation manifests.
+4. Start training recipe integration from `data/kaldi/v1/`.

@@ -183,3 +183,31 @@ data/manifests/v1_partial_segments.jsonl
 data/wav/v1_partial/<BOOK>/*.wav
 reports/v1_partial_audit.md
 ```
+
+## Stage 8: Kaldi Splits
+
+Export combined clean + concat + partial data to Kaldi `wav.scp` and `text`.
+The split is sampled per chapter from clean source utterances. Any clean source
+utterance selected for val/test is removed from train together with all concat
+and partial rows that touch the same source utterance.
+
+```bash
+python local/export_kaldi_splits.py \
+  --out-dir data/kaldi/v1 \
+  --val-per-chapter 1 \
+  --test-per-chapter 1
+```
+
+Outputs:
+
+```text
+data/kaldi/v1/train/wav.scp
+data/kaldi/v1/train/text
+data/kaldi/v1/val/wav.scp
+data/kaldi/v1/val/text
+data/kaldi/v1/test/wav.scp
+data/kaldi/v1/test/text
+data/kaldi/v1/summary.json
+```
+
+`wav.scp` uses absolute paths.
